@@ -42,7 +42,7 @@ module wedge(offset, angle=22) {
   }
 }
 
-module award() {
+module award(year) {
   if(draw_white==1) {
     award_base();
     difference() {
@@ -61,7 +61,7 @@ module award() {
     }
     difference() {
       translate([0,-34,1.5]) {
-        color("white") write("2013",font="orbitron.dxf", h=8,t=3, center=true); 
+        color("white") write(year,font="orbitron.dxf", h=8,t=3, center=true);
       }
       background();
     }
@@ -99,7 +99,7 @@ module award() {
 }
 
 difference() {
-  award();
+  award(year="2013");
   translate([0,43.4,0]) {
     cube([25,3.5,40], center=true);
     translate([25/2,0,0]) cylinder(h=40, r=3.5/2, center=true);
