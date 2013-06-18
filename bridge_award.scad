@@ -3,8 +3,8 @@ $fn=200;
 use <Write.scad>
 
 draw_white = 1;
-draw_teal = 0;
-draw_blue = 0;
+draw_teal = 1;
+draw_blue = 1;
 
 module award_base() {
   difference() {
