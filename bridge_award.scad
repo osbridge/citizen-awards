@@ -70,7 +70,7 @@ module award() {
   if (draw_teal == 1 || draw_blue == 1) {
     difference() {
       intersection() {
-        translate([0,-10,0]) {
+        translate([0,-10,1]) {
           if(draw_teal == 1) {
             color("teal")   wedge(99);
             color("teal")    wedge(55);
