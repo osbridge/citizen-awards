@@ -10,10 +10,29 @@ draw_color1 = 1;
 draw_color2 = 1;
 draw_color3 = 1;
 
+// Font "din_black.dxf" converted using http://www.thingiverse.com/thing:96714
+
+module letter(l,font="din_black.dxf",t=100,i=0, offset=0) {
+  translate([offset, 0, 0]) linear_extrude(height=t) import(font, layer=l);
+}
+
+module word(wrd,font="din_black.dxf",t=100,i=0,offset=0) {
+    if(wrd[i] != " ") {
+      letter(wrd[i],font,t,i,offset);
+    }
+    if(i+1 < len(wrd)) {
+      if(wrd[i] == " ") {
+        word(wrd,font,t,i+1, dxf_dim(file=font, name="advx",layer="i") + offset);
+      } else {
+        word(wrd,font,t,i+1, dxf_dim(file=font, name="advx",layer=wrd[i]) + offset);
+      }
+    }
+}
+
 module back_and_sides() {
   difference() {
-    cylinder(h=3, r=50);
-    translate([0,0,1]) cylinder(h=3, r=45);
+    cylinder(h=5, r=50);
+    translate([0,0,1]) cylinder(h=6, r=45);
   }
 }
 
@@ -22,32 +41,33 @@ module background_area() {
 }
 
 module bridge_mark() {
-  scale_factor = .2;
+  scale_factor = .224;
   scale_array = [scale_factor, scale_factor, 1];
 
-  translate([-36.5, 7, 0 ]) {
+  translate([-40.5, 4, 0 ]) {
     difference() {
       union() {
-        scale(scale_array) linear_extrude(height=3) import("Bridge-Mark.dxf");
-        translate([14.5, -8, 0 ]) scale(scale_array) linear_extrude(height=3) import("Bridge-Text.dxf");
+        scale(scale_array) linear_extrude(height=5) import("Bridge-Mark.dxf");
+        translate([16.5, -7.5, 0 ]) scale(scale_array) linear_extrude(height=5) import("Bridge-Text.dxf");
       }
     }
   }
 }
 
 module cross_bar_text() {
-  write("TRULY OUTSTANDING",font="orbitron.dxf", h=6,t=20, center=true); 
-  translate([0, -9, 0]) write("OPEN SOURCE CITIZEN",font="orbitron.dxf", h=6,t=20, center=true); 
+  text_scale = 0.0018;
+  translate([0, 0, -9]) scale([text_scale, text_scale, 1]) word("TRULY OUTSTANDING", t=20);
+  translate([-1.5, -8, -9]) scale([text_scale, text_scale, 1]) word("OPEN SOURCE CITIZEN", t=20);
 }
 
 module cross_bar() {
   difference() {
     intersection() {
-      color("white") translate([0, -15, 3]) cube([100, 20, 3], center=true);
-      cylinder(h=3, r=50);
+      color("white") translate([0, -15, 5]) cube([100, 20, 5], center=true);
+      cylinder(h=5, r=50);
     }
 
-    translate([0,-10,0]) cross_bar_text();
+    translate([-37.5,-13,0]) cross_bar_text();
   }
 }
 
@@ -59,8 +79,8 @@ module wedge(offset, angle=22) {
 }
 
 module year_label(year) {
-  translate([0,-34,1.5]) {
-    write(year,font="orbitron.dxf", h=8,t=3, center=true);
+  translate([-11,-37,2]) {
+    scale([0.0025, 0.0025, 1]) word("2013", t=3);
   }
 }
 
@@ -115,4 +135,4 @@ module award(year) {
   }
 }
 
-award(year="2013");
+scale([1.125, 1.125, 1]) award(year="2013");
