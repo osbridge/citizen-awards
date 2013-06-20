@@ -1,7 +1,5 @@
 $fn=200;
 
-use <Write.scad>
-
 color1 = "white";
 color2 = "teal";
 color3 = "DodgerBlue";
